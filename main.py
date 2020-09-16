@@ -5,37 +5,38 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
 def horoscope(zodiac):
-    if zodiac == 'scorpio':
-        zodiac = 'scpo'
+    sign = {"aries":"1", "taurus":"2", "gemini":"3", "cancer":"4", "leo":"5", "virgo":"6",
+            "libra":"7", "scorpio":"8", "sagittarius":"9", "capricorn":"10", "aquarius":"11", "pisces":"12"}
+    value = sign[zodiac]
+    URL = 'https://www.horoscope.com/us/horoscopes/general/horoscope-general-daily-today.aspx?sign='+value
 
-    URL = 'https://www.horoscope.com/us/index.aspx'
-    driver.get(URL)
-
-    for x in range(5,0,-1):
-       results = driver.find_element(By.ID, 'src-hp-'+zodiac[0:x])
-       if results is not None:
-           break
-
-    results.click()
-
-    driver.implicitly_wait(5)
-    page = requests.get(driver.current_url)
+    page = requests.get(URL)
     soup = BeautifulSoup(page.content, 'html.parser')
-    text = soup.find('p')
+    text = soup.find('p').get_text()
 
-    print(text)
+    print('horoscope.com: '+text)
 
-    #driver.find_element(By.XPATH,"//a[@href='" + link + "\"").click()
+def astrology(zodiac):
+    URL = 'https://www.astrology.com/horoscope/daily/'+zodiac+'.html'
+
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    text = soup.find('p').get_text()
+    print('astrology.com: '+text)
+
+def astrostyle(zodiac):
+    URL = 'https://astrostyle.com/horoscopes/daily/'+zodiac+'/'
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, 'html.parser')
+    text = soup.find('div', class_ = 'horoscope-content')
+    text2 = text.find('p').get_text()
+    print('astrostyle.com: '+text2)
 
 if __name__ == '__main__':
-    zodiac = 'aries'
-
-    PATH = "C:\Program Files (x86)\chromedriver.exe"
-    chrome_options = Options()
-    #chrome_options.add_argument("--headless")
-    driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=PATH)
+    print('Enter your zodiac sign for your daily dose of horoscope!')
+    zodiac = input()
 
     horoscope(zodiac)
-
-    #driver.quit()
-
+    astrology(zodiac)
+    astrostyle(zodiac)
