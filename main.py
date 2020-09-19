@@ -33,6 +33,13 @@ def astrostyle(zodiac):
     text2 = text.find('p').get_text()
     print('astrostyle.com: '+text2)
 
+def daily(zodiac):
+    URL = 'https://www.dailyhoroscope.com/horoscopes/daily/'+zodiac+'?full=true'
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, 'html.parser')
+    text = soup.find('p', class_ = 'body').get_text()
+    print('dailyhoroscope.com: '+text)
+
 if __name__ == '__main__':
     print('Enter your zodiac sign for your daily dose of horoscope!')
     zodiac = input()
@@ -40,3 +47,4 @@ if __name__ == '__main__':
     horoscope(zodiac)
     astrology(zodiac)
     astrostyle(zodiac)
+    daily(zodiac)
