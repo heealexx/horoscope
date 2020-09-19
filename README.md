@@ -1,6 +1,7 @@
 # horoscope
 
 horoscope is a python program that provides multiple daily horoscopes to the user.
+With this program, you are able to see multiple daily horoscopes instantly.
 
 ## installation
 
